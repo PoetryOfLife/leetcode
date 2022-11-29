@@ -1,6 +1,6 @@
 package sort
 
-// BubbleSort 冒牌排序，核心在于相邻两个数字比较交换位置，时间复杂度为O(n^2)，空间复杂度为O(1)
+// BubbleSort 冒牌排序，重复扫描需要排序的序列，比较相邻的两个元素，如果他们顺序错误就把他们交换位置，最大的时间复杂度为O(n^2)，空间复杂度为O(1)
 func BubbleSort(ary []int) []int {
 	for i := range ary {
 		for j := 0; j < len(ary)-1-i; j++ {
@@ -43,7 +43,7 @@ func InsertionSort(ary []int) []int {
 	return ary
 }
 
-// MergeSort 把序列拆成子序列，先把子序列排序，再合并，通常使用递归的方式，时间复杂度O(nlogn)，空间复杂度O(n)
+// MergeSort 归并排序， 把序列拆成子序列，先把子序列排序，再合并，通常使用递归的方式，时间复杂度O(nlogn)，空间复杂度O(n)
 func MergeSort(ary []int) []int {
 	temp := make([]int, len(ary))
 	internalMerge(ary, temp, 0, len(ary)-1)
