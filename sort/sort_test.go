@@ -20,3 +20,11 @@ func TestInsertionSort(t *testing.T) {
 func TestMergeSort(t *testing.T) {
 	fmt.Println(MergeSort([]int{-23, -34, -5, -23, 23, 56, 1234, 63, 56, 734, 36, 24, 2334, 2, 24, 624, 12343, 2482, -234, -234, 234}))
 }
+
+func TestShellSort(t *testing.T) {
+	fmt.Println(ShellSort([]int{-23, -34, -5, -23, 23, 56, 1234, 63, 56, 734, 36, 24, 2334, 2, 24, 624, 12343, 2482, -234, -234, 234}))
+}
+
+func TestQuickSort(t *testing.T) {
+	fmt.Println(QuickSort([]int{-23, -34, -5, -23, 23, 56, 1234, 63, 56, 734, 36, 24, 2334, 2, 24, 624, 12343, 2482, -234, -234, 234}))
+}

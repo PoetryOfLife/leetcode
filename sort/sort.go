@@ -43,51 +43,60 @@ func InsertionSort(ary []int) []int {
 	return ary
 }
 
-// MergeSort 归并排序， 把序列拆成子序列，先把子序列排序，再合并，通常使用递归的方式，时间复杂度O(nlogn)，空间复杂度O(n)
-func MergeSort(ary []int) []int {
-	temp := make([]int, len(ary))
-	internalMerge(ary, temp, 0, len(ary)-1)
+// ShellSort 希尔排序，把记录按下表的一定增量分组，对每组使用直接插入排序算法排序；随着增量逐渐减少，
+//每组包含的关键词越来越多，当增量减至1时，整个文件恰被分成一组，算法便终止，时间复杂度O(nlogn)，空间复杂度O(1)
+func ShellSort(ary []int) []int {
+	length := len(ary)
+	temp, gap := 0, length/2
+	for gap > 0 {
+		for i := gap; i < length; i++ {
+			temp = ary[i]
+			j := i - gap
+			for j >= 0 && ary[j] > temp {
+				ary[j+gap] = ary[j]
+				j = j - gap
+			}
+			ary[j+gap] = temp
+		}
+		gap /= 2
+	}
 	return ary
 }
 
-func internalMerge(ary, temp []int, left, right int) {
-	if left < right {
-		middle := (left + right) / 2
-		internalMerge(ary, temp, left, middle)
-		internalMerge(ary, temp, middle+1, right)
-		mergeAry(ary, temp, left, middle, right)
+// MergeSort 归并排序，把序列拆成子序列，先把子序列排序，再合并，通常使用递归的方式，时间复杂度O(nlogn)，空间复杂度O(n)
+func MergeSort(ary []int) []int {
+	length := len(ary)
+	if length < 2 {
+		return ary
 	}
+	middle := length / 2
+	left := ary[0:middle]
+	right := ary[middle:]
+	return merge(MergeSort(left), MergeSort(right))
 }
 
-func mergeAry(ary, temp []int, left, middle, right int) {
-	i, j, k := left, right, 0
-	for i <= middle && j <= right {
-		if ary[i] <= ary[j] {
-			temp[k] = ary[i]
-			k++
-			i++
+func merge(left, right []int) (result []int) {
+	for len(left) != 0 && len(right) != 0 {
+		if left[0] <= right[0] {
+			result = append(result, left[0])
+			left = left[1:]
 		} else {
-			ary[k] = ary[j]
-			k++
-			j++
+			result = append(result, right[0])
+			right = right[1:]
 		}
 	}
-	for i <= middle {
-		temp[k] = ary[i]
-		i++
-		k++
+	for len(left) != 0 {
+		result = append(result, left[0])
+		left = left[1:]
 	}
-	for j <= right {
-		temp[k] = ary[j]
-		j++
-		k++
+	for len(right) != 0 {
+		result = append(result, right[0])
+		right = right[1:]
 	}
-	for i2 := 0; i2 < k; i2++ {
-		ary[left+i2] = temp[i2]
-	}
+	return
 }
 
-// QuickSort 快速排序，选定一个基准值，然后根据这个基准值分为两部分，然后一次对这两个部分进行递归处理，时间复杂度O(nlogn)，空间复杂度O(nlogn)
+// QuickSort 快速排序，选定一个基准值，把一个序列分成两部分，其中一部分均比另一部分小，然后通过递归的方式分别对两个部分进行相同方式的排序，直到整个序列有序，时间复杂度O(nlogn)，空间复杂度O(nlogn)
 func QuickSort(ary []int) []int {
 	qSort(ary, 0, len(ary)-1)
 	return ary
@@ -116,26 +125,4 @@ func partition(ary []int, low, high int) int {
 	}
 	ary[low] = pivot
 	return low
-}
-
-// ShellSort 希尔排序
-func ShellSort(arr []int) []int {
-	length := len(arr)
-	gap := 1
-	for gap < length/3 {
-		gap = gap*3 + 1
-	}
-	for gap > 0 {
-		for i := gap; i < length; i++ {
-			temp := arr[i]
-			j := i - gap
-			for j >= 0 && arr[j] > temp {
-				arr[j+gap] = arr[j]
-				j -= gap
-			}
-			arr[j+gap] = temp
-		}
-		gap = gap / 3
-	}
-	return arr
 }
