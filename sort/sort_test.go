@@ -28,3 +28,15 @@ func TestShellSort(t *testing.T) {
 func TestQuickSort(t *testing.T) {
 	fmt.Println(QuickSort([]int{-23, -34, -5, -23, 23, 56, 1234, 63, 56, 734, 36, 24, 2334, 2, 24, 624, 12343, 2482, -234, -234, 234}))
 }
+
+func TestHeapSort(t *testing.T) {
+	fmt.Println(HeapSort([]int{-23, -34, -5, -23, 23, 56, 1234, 63, 56, 734, 36, 24, 2334, 2, 24, 624, 12343, 2482, -234, -234, 234}))
+}
+
+func TestCountingSort(t *testing.T) {
+	fmt.Println(CountingSort([]int{23, 56, 1234, 63, 56, 734, 36, 24, 2334, 2, 24, 624, 12343, 2482, 234}, 20000))
+}
+
+func TestBucketSort(t *testing.T) {
+	fmt.Println(BucketSort([]int{23, 56, 1234, 63, 56, 734, 36, 24, 2334, 2, 24, 624, 12343, 2482, 234}, 5))
+}

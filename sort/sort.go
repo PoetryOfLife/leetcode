@@ -126,3 +126,90 @@ func partition(ary []int, low, high int) int {
 	ary[low] = pivot
 	return low
 }
+
+// HeapSort 堆排序，利用完全二叉树的思想特性进行排序，时间复杂度O(nlogn)，空间复杂度O(1)
+func HeapSort(arr []int) []int {
+	arrLen := len(arr)
+	buildMaxHeap(arr, arrLen)
+	return arr
+}
+
+func buildMaxHeap(arr []int, arrLen int) {
+	for i := arrLen / 2; i >= 0; i-- {
+		heapify(arr, i, arrLen)
+	}
+}
+
+func heapify(arr []int, i, arrLen int) {
+	left := 2*i + 1
+	right := 2*i + 2
+	largest := i
+	if left < arrLen && arr[left] > arr[largest] {
+		largest = left
+	}
+	if right < arrLen && arr[right] > arr[largest] {
+		largest = right
+	}
+	if largest != i {
+		swap(arr, i, largest)
+		heapify(arr, largest, arrLen)
+	}
+}
+
+func swap(arr []int, i, j int) {
+	arr[i], arr[j] = arr[j], arr[i]
+}
+
+// CountingSort 计数排序，利用数组下标进行计数，时间复杂度O(n + k)，空间复杂度O(k)
+func CountingSort(arr []int, maxValue int) []int {
+	bucketLen := maxValue + 1
+	bucket := make([]int, bucketLen) // 初始为0的数组
+
+	sortedIndex := 0
+	length := len(arr)
+
+	for i := 0; i < length; i++ {
+		bucket[arr[i]] += 1
+	}
+
+	for j := 0; j < bucketLen; j++ {
+		for bucket[j] > 0 {
+			arr[sortedIndex] = j
+			sortedIndex += 1
+			bucket[j] -= 1
+		}
+	}
+
+	return arr
+}
+
+// BucketSort 桶排序，类似计数排序，手动设置一个桶，把在这个桶区间的值放入桶中，再对这个桶进行排序，时间复杂度O(n+k)，空间复杂度O(n+k)
+func BucketSort(arr []int, bucketSize int) (resultArr []int) {
+	if arr == nil || len(arr) < 2 {
+		return arr
+	}
+	max, min := arr[0], arr[0]
+	for _, v := range arr {
+		if v > max {
+			max = v
+		}
+		if v < min {
+			min = v
+		}
+	}
+	bucketCount := (max-min)/bucketSize + 1
+	bucketArr := make([][]int, bucketCount)
+	for i := range arr {
+		bucketArr[(arr[i]-min)/bucketSize] = append(bucketArr[(arr[i]-min)/bucketSize], arr[i])
+	}
+	for i := 0; i < bucketCount; i++ {
+		if bucketCount == 1 {
+			bucketSize--
+		}
+		temp := InsertionSort(bucketArr[i])
+		for j := 0; j < len(temp); j++ {
+			resultArr = append(resultArr, temp[j])
+		}
+	}
+	return resultArr
+}
