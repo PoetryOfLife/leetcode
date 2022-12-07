@@ -1,5 +1,6 @@
 package question
 
+//检测是否存在环形链表
 func hasCycle(head *ListNode) bool {
 	if head == nil || head.Next == nil {
 		return false
