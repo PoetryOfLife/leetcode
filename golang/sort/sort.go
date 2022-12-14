@@ -151,13 +151,9 @@ func heapify(arr []int, i, arrLen int) {
 		largest = right
 	}
 	if largest != i {
-		swap(arr, i, largest)
+		arr[i], arr[largest] = arr[largest], arr[i]
 		heapify(arr, largest, arrLen)
 	}
-}
-
-func swap(arr []int, i, j int) {
-	arr[i], arr[j] = arr[j], arr[i]
 }
 
 // CountingSort 计数排序，利用数组下标进行计数，时间复杂度O(n + k)，空间复杂度O(k)
